@@ -1,8 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import QuemSouView from '../views/QuemSouView.vue'
+import PropostasView from '../views/PropostasView.vue'
+import OuvidoriaView from '../views/OuvidoriaView.vue'
+import JornalView from '../views/JornalView.vue'
+import ContatoView from '../views/ContatoView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -10,12 +15,29 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/quem-somos',
+      name: 'quem-somos',
+      component: QuemSouView,
+    },
+    {
+      path: '/propostas',
+      name: 'propostas',
+      component: PropostasView,
+    },
+    {
+      path: '/ouvidoria',
+      name: 'ouvidoria',
+      component: OuvidoriaView,
+    },
+    {
+      path: '/jornal',
+      name: 'jornal',
+      component: JornalView,
+    },
+    {
+      path: '/contato',
+      name: 'contato',
+      component: ContatoView,
     },
   ],
 })
