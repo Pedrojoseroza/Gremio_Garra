@@ -25,7 +25,6 @@ const items = [
   { label: 'Quem somos', to: '/quem-somos' },
   { label: 'Propostas', to: '/propostas' },
   { label: 'Ouvidoria', to: '/ouvidoria' },
-  { label: 'Jornal', to: '/jornal' },
 ]
 </script>
 

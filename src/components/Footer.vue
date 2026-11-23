@@ -132,9 +132,18 @@
 }
 
 @media (max-width: 768px) {
+  .footer {
+    padding: 28px 60px 0;
+  }
+
   .footer-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding-bottom: 18px;
+  }
+
+  .footer-bottom {
+    padding: 12px 0 10px;
   }
 }
 </style>

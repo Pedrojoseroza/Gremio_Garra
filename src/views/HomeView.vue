@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import Header from '../components/Header.vue'
-import Footer from '../components/Footer.vue'
-
 import { onMounted, onBeforeUnmount } from 'vue'
 
 const contexto = [
@@ -109,8 +106,6 @@ onBeforeUnmount(() => observer?.disconnect())
 
 <template>
   <div class="home-page">
-    <Header />
-
     <main>
       <!-- Banner -->
       <section class="banner reveal">
