@@ -20,6 +20,10 @@ const enviando = ref(false)
 const mensagemStatus = ref('')
 const statusErro = ref(false)
 
+const EMAILJS_SERVICE_ID = 'service_xjzbd2o'
+const EMAILJS_TEMPLATE_ID = 'template_poyersn'
+const EMAILJS_PUBLIC_KEY = '7_rYE9tZnGPfK1EyL'
+
 const temas = ['Todas', 'Comunicação', 'Cultura', 'Estudo', 'Convivência', 'Transparência']
 
 const propostas: Proposta[] = [
@@ -163,32 +167,25 @@ async function enviarProposta() {
     return
   }
 
-  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-
-  if (!serviceId || !templateId || !publicKey) {
-    statusErro.value = true
-    mensagemStatus.value = 'O envio por email ainda não foi configurado.'
-    return
-  }
-
   enviando.value = true
   statusErro.value = false
   mensagemStatus.value = ''
 
   try {
     await emailjs.send(
-      serviceId,
-      templateId,
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
       {
         title: tituloProposta.value.trim(),
         theme: temaProposta.value,
         message: descricaoProposta.value.trim(),
         name: anonimo.value ? 'Anônimo' : nome.value.trim() || 'Não informado',
         anonymous: anonimo.value ? 'Sim' : 'Não',
+        form_type: 'Proposta',
+        turma: 'Não informado',
+        to_name: 'Chapa Garra',
       },
-      { publicKey },
+      { publicKey: EMAILJS_PUBLIC_KEY },
     )
 
     mensagemStatus.value = 'Proposta enviada com sucesso!'

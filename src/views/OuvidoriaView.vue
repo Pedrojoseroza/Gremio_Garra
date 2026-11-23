@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import emailjs from '@emailjs/browser'
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 const tipoMensagem = ref('Crítica')
@@ -6,6 +7,55 @@ const assunto = ref('Grêmio')
 const mensagem = ref('')
 const nome = ref('')
 const anonimo = ref(false)
+const enviando = ref(false)
+const mensagemStatus = ref('')
+const statusErro = ref(false)
+
+const EMAILJS_SERVICE_ID = 'service_xjzbd2o'
+const EMAILJS_TEMPLATE_ID = 'template_poyersn'
+const EMAILJS_PUBLIC_KEY = '7_rYE9tZnGPfK1EyL'
+
+async function enviarOuvidoria() {
+  if (!mensagem.value.trim()) {
+    statusErro.value = true
+    mensagemStatus.value = 'Escreva sua mensagem antes de enviar.'
+    return
+  }
+
+  enviando.value = true
+  statusErro.value = false
+  mensagemStatus.value = ''
+
+  try {
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        form_type: 'Ouvidoria',
+        title: `${tipoMensagem.value} - ${assunto.value}`,
+        theme: assunto.value,
+        message: mensagem.value.trim(),
+        name: anonimo.value ? 'Anônimo' : nome.value.trim() || 'Não informado',
+        anonymous: anonimo.value ? 'Sim' : 'Não',
+        turma: 'Não informado',
+        to_name: 'Chapa Garra',
+      },
+      { publicKey: EMAILJS_PUBLIC_KEY },
+    )
+
+    mensagemStatus.value = 'Mensagem enviada com sucesso!'
+    tipoMensagem.value = 'Crítica'
+    assunto.value = 'Grêmio'
+    mensagem.value = ''
+    nome.value = ''
+    anonimo.value = false
+  } catch {
+    statusErro.value = true
+    mensagemStatus.value = 'Não foi possível enviar. Tente novamente.'
+  } finally {
+    enviando.value = false
+  }
+}
 
 // Scroll reveal: adiciona .is-visible quando o elemento entra na tela
 let observer: IntersectionObserver | null = null
@@ -85,7 +135,7 @@ const passos = [
             </p>
           </div>
 
-          <div class="form-card">
+          <form class="form-card" @submit.prevent="enviarOuvidoria">
             <div class="form-field">
               <label class="form-label">Tipo de mensagem</label>
               <select class="form-select" v-model="tipoMensagem">
@@ -121,8 +171,13 @@ const passos = [
               <label for="anonimo">Quero enviar de forma anônima</label>
             </div>
 
-            <button class="form-btn">Enviar mensagem</button>
-          </div>
+            <p v-if="mensagemStatus" class="form-status" :class="{ error: statusErro }" role="status">
+              {{ mensagemStatus }}
+            </p>
+            <button class="form-btn" type="submit" :disabled="enviando">
+              {{ enviando ? 'Enviando...' : 'Enviar mensagem' }}
+            </button>
+          </form>
         </div>
       </section>
 
@@ -448,6 +503,21 @@ const passos = [
 
 .form-btn:hover {
   background: #4A382A;
+}
+
+.form-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.form-status {
+  margin: 0 0 1rem;
+  color: #3f7d32;
+  font-size: 0.875rem;
+}
+
+.form-status.error {
+  color: #771208;
 }
 
 /* Devolutiva no auditório */

@@ -1,9 +1,57 @@
 <script setup lang="ts">
+import emailjs from '@emailjs/browser'
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 const nome = ref('')
 const turma = ref('')
 const mensagem = ref('')
+const enviando = ref(false)
+const mensagemStatus = ref('')
+const statusErro = ref(false)
+
+const EMAILJS_SERVICE_ID = 'service_xjzbd2o'
+const EMAILJS_TEMPLATE_ID = 'template_poyersn'
+const EMAILJS_PUBLIC_KEY = '7_rYE9tZnGPfK1EyL'
+
+async function enviarContato() {
+  if (!nome.value.trim() || !mensagem.value.trim()) {
+    statusErro.value = true
+    mensagemStatus.value = 'Preencha seu nome e a mensagem.'
+    return
+  }
+
+  enviando.value = true
+  statusErro.value = false
+  mensagemStatus.value = ''
+
+  try {
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        form_type: 'Contato',
+        title: 'Mensagem pelo formulário de contato',
+        theme: turma.value.trim() || 'Não informado',
+        message: mensagem.value.trim(),
+        name: nome.value.trim(),
+        anonymous: 'Não',
+        turma: turma.value.trim() || 'Não informado',
+        to_name: 'Chapa Garra',
+      },
+      { publicKey: EMAILJS_PUBLIC_KEY },
+    )
+
+    mensagemStatus.value = 'Mensagem enviada com sucesso!'
+    nome.value = ''
+    turma.value = ''
+    mensagem.value = ''
+  } catch {
+    statusErro.value = true
+    mensagemStatus.value = 'Não foi possível enviar. Tente novamente.'
+  } finally {
+    enviando.value = false
+  }
+}
 
 // Scroll reveal: adiciona .is-visible quando o elemento entra na tela
 let observer: IntersectionObserver | null = null
@@ -35,7 +83,7 @@ const canais = [
   },
   {
     titulo: 'E-mail',
-    usuario: '[E-MAIL DA CHAPA]',
+    usuario: 'gremiogarraifc@gmail.com',
     descricao: '',
   },
 ]
@@ -80,7 +128,7 @@ const canais = [
           <!-- Right: Formulário -->
           <div class="formulario">
             <span class="form-eyebrow">ENVIE UMA MENSAGEM</span>
-            <div class="form-card">
+            <form class="form-card" @submit.prevent="enviarContato">
               <div class="form-field">
                 <label class="form-label">Nome</label>
                 <input class="form-input" v-model="nome" type="text" placeholder="Seu nome" />
@@ -96,8 +144,13 @@ const canais = [
                 <textarea class="form-textarea" v-model="mensagem" rows="5"></textarea>
               </div>
 
-              <button class="form-btn">Enviar</button>
-            </div>
+              <p v-if="mensagemStatus" class="form-status" :class="{ error: statusErro }" role="status">
+                {{ mensagemStatus }}
+              </p>
+              <button class="form-btn" type="submit" :disabled="enviando">
+                {{ enviando ? 'Enviando...' : 'Enviar' }}
+              </button>
+            </form>
           </div>
         </div>
       </section>
@@ -337,6 +390,21 @@ const canais = [
 
 .form-btn:hover {
   background: #DA8438;
+}
+
+.form-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.form-status {
+  margin: 0 0 10px;
+  color: #3f7d32;
+  font-size: 0.875rem;
+}
+
+.form-status.error {
+  color: #771208;
 }
 
 /* Scroll reveal */
