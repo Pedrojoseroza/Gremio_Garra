@@ -375,7 +375,7 @@ async function enviarProposta() {
 }
 
 .filter {
-  height: 27px;
+  min-height: 40px;
   padding: 0 12px;
   border: 1px solid #e7d4b7;
   border-radius: 999px;
@@ -704,6 +704,19 @@ async function enviarProposta() {
 
   .propostas-grid {
     grid-template-columns: 1fr;
+  }
+
+  .filter {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .idea-form {
+    padding: 20px 16px;
   }
 }
 </style>

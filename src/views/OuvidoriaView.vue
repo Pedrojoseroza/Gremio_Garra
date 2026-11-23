@@ -613,5 +613,9 @@ const passos = [
   .form-card {
     padding: 2rem 1.5rem;
   }
+
+  .form-btn {
+    min-height: 44px;
+  }
 }
 </style>

@@ -632,5 +632,10 @@ onMounted(() => {
   .hero {
     padding: 48px 24px 32px;
   }
+
+  .hero-image img {
+    width: min(240px, 72vw);
+    height: auto;
+  }
 }
 </style>

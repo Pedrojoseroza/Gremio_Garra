@@ -133,17 +133,28 @@
 
 @media (max-width: 768px) {
   .footer {
-    padding: 28px 60px 0;
+    padding: 40px 24px 0;
   }
 
   .footer-container {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding-bottom: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
+    padding-bottom: 24px;
   }
 
   .footer-bottom {
     padding: 12px 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-col.about {
+    max-width: 28rem;
   }
 }
 </style>

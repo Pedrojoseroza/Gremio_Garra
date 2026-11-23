@@ -456,5 +456,13 @@ const canais = [
   .formulario {
     max-width: none;
   }
+
+  .form-card {
+    padding: 20px 16px;
+  }
+
+  .form-btn {
+    min-height: 44px;
+  }
 }
 </style>

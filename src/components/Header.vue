@@ -6,20 +6,34 @@
         <span>Garra</span>
       </router-link>
 
-      <ul class="links">
+      <ul id="main-menu" class="links" :class="{ 'is-open': menuOpen }">
         <li v-for="item in items" :key="item.to">
-          <router-link :to="item.to" active-class="is-active">{{ item.label }}</router-link>
+          <router-link :to="item.to" active-class="is-active" @click="menuOpen = false">{{ item.label }}</router-link>
         </li>
       </ul>
 
       <div class="actions">
         <router-link to="/contato" class="btn btn--ghost">Entrar em contato</router-link>
+        <button
+          class="menu-toggle"
+          type="button"
+          :aria-expanded="menuOpen"
+          aria-controls="main-menu"
+          aria-label="Abrir menu"
+          @click="menuOpen = !menuOpen"
+        >
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </nav>
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const menuOpen = ref(false)
+
 const items = [
   { label: 'Início', to: '/' },
   { label: 'Quem somos', to: '/quem-somos' },
@@ -114,6 +128,25 @@ const items = [
   gap: 8px;
 }
 
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 4px auto;
+  background: #faf3e6;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -133,8 +166,65 @@ const items = [
 @media (max-width: 860px) {
   .nav {
     grid-template-columns: 1fr auto;
+    position: relative;
+    padding-left: 14px;
   }
+
+  .actions .btn--ghost {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
   .links {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px;
+    margin: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    background: #0c0200;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  }
+
+  .links.is-open {
+    display: flex;
+  }
+
+  .links li {
+    width: 100%;
+  }
+
+  .links a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 0 12px;
+  }
+
+  .links a::after {
+    bottom: 6px;
+    left: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .header {
+    padding: 0 10px;
+  }
+
+  .nav {
+    height: 54px;
+  }
+
+  .logo span {
     display: none;
   }
 }
