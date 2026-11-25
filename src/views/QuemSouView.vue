@@ -28,7 +28,7 @@ const allFiles = [
   'Ian-Colaborador.jpeg',
   'Isabelle Padilha-Diretora Adjunta de Comunicação.jpeg',
   'Isís-Tesoureira_Geral.jpeg',
-  'Leandro_Diretor de Insfraestrutura.jpeg',
+  'Leandro-Diretor_de_Insfraestrutura.jpeg',
   'Letícia-Diretora de Eventos.jpeg',
   'Manuela-Colaboradora.jpeg',
   'Maria_Eduarda-Primeira Suplente.jpeg',
