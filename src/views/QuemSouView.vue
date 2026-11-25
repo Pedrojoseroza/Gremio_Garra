@@ -47,7 +47,7 @@ const cargoOrdem = (cargo: string): number => {
   const c = cargo.toLowerCase()
   if (c.includes('presidente')) return 1
   if (c.includes('vice_presidente') || c.includes('vice-presidente')) return 2
-  if (c.includes('secretário_geral') || c.includes('secretário geral')) return 3
+  if (c.includes('secretário_geral') || c.includes('secretário geral') || (c.includes('tesoureira geral')))  return 3
   if (c.includes('diretora') || c.includes('diretor')) return 4
   if (c.includes('suplente')) return 5
   return 6 // colaborador e outros
